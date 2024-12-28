@@ -35,6 +35,9 @@ export const NavigationBar = () => {
                 <Nav.Link as={Link} to="/profile">
                     Profile
                 </Nav.Link>
+                <Nav.Link as={Link} to="/file-management">
+                  File Management
+                </Nav.Link>
                 <Nav.Link onClick={() => dispatch(setUser(null))}>
                   Logout
                 </Nav.Link>

@@ -6,6 +6,8 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
+import FileManagement from '../FileManagement/FileManagement'; 
+
 
 import Row from "react-bootstrap/Row";
 import Col from 'react-bootstrap/Col';
@@ -168,14 +170,27 @@ export const MainView = () => {
               }
             />
              <Route
-                    path="/movies/:movieId"
-                    element={
-                      <MovieView
-                        addFavoriteMovie={addFavoriteMovie}
-                        removeFavoriteMovie={removeFavoriteMovie}
-                      />
-                    }
-                />
+                path="/movies/:movieId"
+                element={
+                  <MovieView
+                    addFavoriteMovie={addFavoriteMovie}
+                    removeFavoriteMovie={removeFavoriteMovie}
+                  />
+                }
+              />
+              <Route
+                path="/movies/:movieId"
+                element={
+                  <MovieView
+                    addFavoriteMovie={addFavoriteMovie}
+                    removeFavoriteMovie={removeFavoriteMovie}
+                  />
+                }
+              />
+              <Route 
+                path="/file-management" 
+                element={<FileManagement />} 
+              />
           </Routes>
         </Row>
       </BrowserRouter>
