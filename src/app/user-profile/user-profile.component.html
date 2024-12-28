@@ -1,0 +1,165 @@
+<div class="container">
+    <nav class="nav">
+        <button 
+            mat-button 
+            color="primary" 
+            (click)="redirectMovies()"
+            class="nav-button"
+        >
+            Movies
+        </button>
+
+        <button 
+            mat-button 
+            color="primary" 
+            (click)="logout()"
+            class="nav-button logout"
+        >
+            Logout
+        </button>
+    </nav>
+
+    <div class="profile-container">
+        <!--User Profile Information--> 
+        <mat-card class="profile-card">
+            <mat-card-header>
+                <mat-card-title>
+                    <strong>Profile</strong>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p><i>Username:</i> {{ userData.Username }}</p>
+                <p><i>Password:</i> ********* </p>
+                <p><i>Email:</i> {{ userData.Email }}</p>
+                <p><i>Birthday:</i> {{ userData.Birthday | date }}</p>
+
+            </mat-card-content>
+        </mat-card>
+
+        <!--Update User Profile Information-->
+        <mat-card class="profile-card">
+            <mat-card-header>
+                <mat-card-title>
+                    <strong>Update Profile Information</strong>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                Each field is required to update your user profile!
+                <form>
+                    <mat-form-field style="margin-right: 10px;">
+                        <label>Username</label>
+                        <input 
+                            matInput 
+                            [(ngModel)]="userData.Username" 
+                            placeholder="Username" 
+                            type="text"
+                            name="Username">
+                    </mat-form-field>
+                    <mat-form-field style="margin-right: 10px;">
+                        <label>Password</label>
+                        <input 
+                            matInput 
+                            [(ngModel)]="userData.Password" 
+                            type="password" 
+                            placeholder="Password"
+                            name="Password">
+                    </mat-form-field>
+                    <mat-form-field style="margin-right: 10px;">
+                        <label>Email</label>
+                        <input 
+                            matInput 
+                            [(ngModel)]="userData.Email" 
+                            type="email" 
+                            placeholder="Email" 
+                            name="Email">
+                    </mat-form-field>
+                    <mat-form-field style="margin-right: 10px;">
+                        <label>Birthday</label>
+                        <input 
+                            matInput 
+                            [(ngModel)]="userData.Birthday" 
+                            type="date" 
+                            placeholder="Birthday"
+                            name="Birthday">
+                    </mat-form-field>
+                </form>
+                <mat-card-actions>
+                    <button 
+                        mat-raised-button 
+                        (click)="editUser()" 
+                        color="secondary" 
+                        style="margin-right: 10px;"
+                    >
+                        Update Profile Information
+                    </button>
+                </mat-card-actions>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div>
+        <!--User Favorite Movies-->
+        <mat-card-header class="favorites-title">
+            <mat-card-title>
+                <strong>Favorite Movies</strong>
+            </mat-card-title>
+        </mat-card-header>
+            <mat-card-content>
+                <div 
+                    *ngIf="favoriteMovies.length > 0; else noFavorites" 
+                    class="card-container"
+                >
+                    <mat-card 
+                        *ngFor="let movie of this.favoriteMovies;" 
+                        class="movie-card" 
+                    >
+                        <mat-card-header class="movie-title">
+                            <mat-card-title>
+                                {{movie.Title}}
+                            </mat-card-title>
+                            <mat-card-subtitle>
+                                Directed by: {{movie.Director.Name}}
+                            </mat-card-subtitle>
+                        </mat-card-header>
+                        <img 
+                            src={{movie.ImagePath}} 
+                            alt={{movie.Title}} 
+                            class="movie-image"
+                        />
+                        <mat-card-actions>
+                            <button 
+                                mat-raised-button 
+                                (click)="removeFromFavorites(movie._id)" 
+                                color="primary"
+                                class="remove-button"
+                            >
+                                Remove from favorites
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+                <ng-template #noFavorites> <p>No favorite movies selected yet.</p> </ng-template>
+            </mat-card-content>
+        
+        <!--Delete User Profile-->
+        <mat-card class="delete-user">
+        <mat-card-header>
+            <mat-card-title>
+                <strong>Delete User Profile</strong>
+            </mat-card-title>
+            </mat-card-header>
+            
+                <mat-card-content>
+                    <mat-card-actions>
+                        <button 
+                            mat-raised-button 
+                            (click)="deleteUser()" 
+                            color="secondary" 
+                            style="margin-right: 10px;"
+                        >
+                            Delete Account
+                        </button>
+                    </mat-card-actions>
+                </mat-card-content>
+        </mat-card>
+    </div>
+</div>
