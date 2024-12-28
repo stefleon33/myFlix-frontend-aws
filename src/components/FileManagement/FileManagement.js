@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "./FileManagement.scss";
+import './FileManagement.scss';
 
 const FileManagement = () => {
     const [file, setFile] = useState(null);

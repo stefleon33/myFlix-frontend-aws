@@ -1,6 +1,30 @@
-h1 { 
-    display: block;
-    margin: auto;
-    align-items: center;
-    margin-top: 15px
+.file-management {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.file-upload-section {
+    margin-bottom: 20px;
+
+    input[type="file"] {
+        margin-right: 10px;
+    }
+}
+
+.uploaded-files {
+    list-style-type: none;
+    padding: 0;
+}
+
+.uploaded-files li {
+    margin: 10px 0;
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }
