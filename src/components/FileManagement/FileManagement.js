@@ -82,7 +82,15 @@ const FileManagement = () => {
             <div className="images-grid mt-3">
                 {objects.map((obj, index) => {
                     const originalImageUrl = `https://${bucketName}.s3.amazonaws.com/${obj.Key}`;
-                    const thumbnailImageUrl = `https://${bucketName}.s3.amazonaws.com/resized-images/${obj.Key.split('/').pop()}`;
+                    const thumbnailImageUrl = obj.Key.startsWith('original-images/') 
+                        ? `https://${bucketName}.s3.amazonaws.com/resized-images/${obj.Key.replace('original-images/', '')}`
+                        : '';
+                    if (!thumbnailImageUrl || thumbnailImageUrl.endsWith('/')) {
+    return null;
+}
+                    console.log('Original Image URL:', originalImageUrl);
+                    console.log('Thumbnail Image URL:', thumbnailImageUrl);
+
 
                     return (
                         <Card className="image-card" key={index}>
