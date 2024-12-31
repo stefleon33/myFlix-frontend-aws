@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Button, Card } from 'react-bootstrap';
 import './FileManagement.scss';
 
 const FileManagement = () => {
@@ -10,7 +11,7 @@ const FileManagement = () => {
 
     // Get the API URL and Bucket name from environment variables
     const apiUrl = process.env.REACT_APP_API_URL;
-    const bucketName = process.env.REACT_APP_BUCKET_NAME || 'two-point-five-lambda';  // Defaulting to 'two-point-five-lambda'
+    const bucketName = process.env.REACT_APP_BUCKET_NAME || 'two-point-five-lambda';
 
     // Handle file selection
     const handleFileChange = (e) => {
@@ -59,57 +60,73 @@ const FileManagement = () => {
     }, []);
 
     return (
-        <div>
-            <h1>File Management</h1>
+        <div className="file-management-container">
+            {/* Upload Section */}
+            <Card className="upload-card">
+                <Card.Body>
+                    <Card.Title>Upload File</Card.Title>
+                    <input type="file" onChange={handleFileChange} />
+                    <Button variant="primary" className="mt-3" onClick={handleUpload}>
+                        Upload
+                    </Button>
+                    {message && <p className="upload-message mt-3">{message}</p>}
+                </Card.Body>
+            </Card>
 
-            {/* File Upload Section */}
-            <div>
-                <h2>Upload File</h2>
-                <input type="file" onChange={handleFileChange} />
-                <button onClick={handleUpload}>Upload</button>
-                {message && <p>{message}</p>}
-            </div>
+            {/* Uploaded Files Section */}
+<Card className="images-card mt-4">
+    <Card.Body>
+        <Card.Title>Uploaded Files</Card.Title>
+        {error && <p className="error-message">{error}</p>}
+        {objects.length > 0 ? (
+            <div className="images-grid mt-3">
+                {objects.map((obj, index) => {
+                    const originalImageUrl = `https://${bucketName}.s3.amazonaws.com/${obj.Key}`;
+                    const thumbnailImageUrl = `https://${bucketName}.s3.amazonaws.com/resized-images/${obj.Key.split('/').pop()}`;
 
-            {/* List Files Section */}
-            <div>
-                <h2>Uploaded Files</h2>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                {objects.length > 0 ? (
-                    <ul>
-                        {objects.map((obj, index) => {
-                            // Assuming 'original-images/' for original and 'resized-images/' for resized images
-                            const originalImageUrl = `https://${bucketName}.s3.amazonaws.com/original-images/${obj.Key}`;
-                            const thumbnailImageUrl = `https://${bucketName}.s3.amazonaws.com/resized-images/${obj.Key.replace('original-images/', '').replace('.jpg', '-thumbnail.jpg')}`;
-                            
-                            return (
-                                <li key={index}>
-                                    <div>
-                                        <h3>{obj.Key.replace('original-images/', '')}</h3>
-                                        <div>
-                                            <p>Original:</p>
-                                            <img
-                                                src={originalImageUrl}
-                                                alt={obj.Key}
-                                                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                            />
-                                        </div>
-                                        <div>
-                                            <p>Thumbnail:</p>
-                                            <img
-                                                src={thumbnailImageUrl}
-                                                alt={obj.Key}
-                                                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                            />
-                                        </div>
+                    return (
+                        <Card className="image-card" key={index}>
+                            <Card.Body>
+                                <div className="images-row">
+                                    {/* Original Image */}
+                                    <div className="image-column">
+                                        <Card.Img
+                                            src={originalImageUrl}
+                                            alt="Original"
+                                            className="image"
+                                        />
+                                        <Card.Text className="text-center">Original</Card.Text>
+                                        <a href={originalImageUrl} target="_blank" rel="noopener noreferrer">
+                                            View Original
+                                        </a>
                                     </div>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                ) : (
-                    <p>No files found.</p>
-                )}
+
+                                    {/* Resized Image */}
+                                    <div className="image-column">
+                                        <Card.Img
+                                            src={thumbnailImageUrl}
+                                            onError={(e) => {
+                                                e.target.src = 'https://via.placeholder.com/100';
+                                            }}
+                                            alt="Resized"
+                                            className="image"
+                                        />
+                                        <Card.Text className="text-center">Resized</Card.Text>
+                                        <a href={thumbnailImageUrl} target="_blank" rel="noopener noreferrer">
+                                            View Resized
+                                        </a>
+                                    </div>
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    );
+                })}
             </div>
+        ) : (
+            <p className="mt-3">No files found.</p>
+        )}
+    </Card.Body>
+</Card>
         </div>
     );
 };

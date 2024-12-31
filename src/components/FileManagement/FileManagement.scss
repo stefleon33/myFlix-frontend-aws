@@ -1,30 +1,37 @@
-.file-management {
-    padding: 20px;
-    background-color: #f8f9fa;
+.images-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
 }
 
-.file-upload-section {
-    margin-bottom: 20px;
-
-    input[type="file"] {
-        margin-right: 10px;
-    }
+.image-card {
+    width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.uploaded-files {
-    list-style-type: none;
-    padding: 0;
+.images-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 }
 
-.uploaded-files li {
-    margin: 10px 0;
+.image-column {
+    text-align: center;
+    flex: 1;
+}
 
-    a {
-        color: #007bff;
-        text-decoration: none;
+.image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
 
-        &:hover {
-            text-decoration: underline;
-        }
-    }
+.image-column .text-center {
+    font-size: 14px;
+    margin-top: 5px;
 }
