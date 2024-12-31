@@ -10,7 +10,7 @@ const FileManagement = () => {
 
     // Get the API URL and Bucket name from environment variables
     const apiUrl = process.env.REACT_APP_API_URL;
-    const bucketName = process.env.REACT_APP_BUCKET_NAME;
+    const bucketName = process.env.REACT_APP_BUCKET_NAME || 'two-point-five-lambda';  // Defaulting to 'two-point-five-lambda'
 
     // Handle file selection
     const handleFileChange = (e) => {
@@ -76,17 +76,35 @@ const FileManagement = () => {
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 {objects.length > 0 ? (
                     <ul>
-                        {objects.map((obj, index) => (
-                            <li key={index}>
-                                <a
-                                    href={`https://${bucketName}.s3.amazonaws.com/${obj.Key}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    {obj.Key.replace('uploads/', '')}
-                                </a>
-                            </li>
-                        ))}
+                        {objects.map((obj, index) => {
+                            // Assuming 'original-images/' for original and 'resized-images/' for resized images
+                            const originalImageUrl = `https://${bucketName}.s3.amazonaws.com/original-images/${obj.Key}`;
+                            const thumbnailImageUrl = `https://${bucketName}.s3.amazonaws.com/resized-images/${obj.Key.replace('original-images/', '').replace('.jpg', '-thumbnail.jpg')}`;
+                            
+                            return (
+                                <li key={index}>
+                                    <div>
+                                        <h3>{obj.Key.replace('original-images/', '')}</h3>
+                                        <div>
+                                            <p>Original:</p>
+                                            <img
+                                                src={originalImageUrl}
+                                                alt={obj.Key}
+                                                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                            />
+                                        </div>
+                                        <div>
+                                            <p>Thumbnail:</p>
+                                            <img
+                                                src={thumbnailImageUrl}
+                                                alt={obj.Key}
+                                                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                            />
+                                        </div>
+                                    </div>
+                                </li>
+                            );
+                        })}
                     </ul>
                 ) : (
                     <p>No files found.</p>
